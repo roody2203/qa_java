@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.fail;
 
 public class CatTest {
 
-    private Cat cat;
+    private Feline feline;
 
     @Before
     public void init() {
+        feline = Mockito.mock(Feline.class);
     }
 
     @After
@@ -25,32 +27,27 @@ public class CatTest {
 
     @Test
     public void testCat() {
-        Feline feline = Mockito.mock(Feline.class);
-
-        Cat cat = new Cat(feline);
+        try{
+            Cat cat = new Cat(feline);
+        } catch(Exception e) {
+            fail("Конструктор класса Cat выбросил исключение " + e.getClass().getSimpleName());
+        }
     }
 
     @Test
     public void testGetSound() {
-        Feline feline = Mockito.mock(Feline.class);
-
         Cat cat = new Cat(feline);
-        MatcherAssert.assertThat(cat.getSound(), is("Мяу"));
+        MatcherAssert.assertThat("Метод getSound должен возвращать строку 'Мяу'", cat.getSound(), is("Мяу"));
     }
 
     @Test
     public void testGetFood() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-
-        Cat cat = new Cat(feline);
+         Cat cat = new Cat(feline);
 
         ArrayList<String> foods = new ArrayList<>(Arrays.asList("Животные", "Птицы", "Рыба"));
 
         Mockito.when(feline.eatMeat()).thenReturn(foods);
 
-        MatcherAssert.assertThat(cat.getFood(), is(foods));
+        MatcherAssert.assertThat("Метод getFood должен вернуть " + foods, cat.getFood(), is(foods));
     }
-
-
-
 }

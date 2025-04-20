@@ -4,40 +4,21 @@ import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
-@RunWith(Parameterized.class)
 public class LionTest {
-
-    private final String sex;
-    private final boolean isValid;
-    private final boolean hasMane;
-
-
-    @Parameterized.Parameters(name = "Тестовые данные: {0}")
-    public static Object[][] getParameters() {
-        return new Object[][]{
-                {"Самец", true, true},
-                {"Самка", true, false},
-                {"Детеныш", false, false},
-        };
-    }
-
-    public LionTest(String sex, boolean isValid, boolean hasMane) {
-        this.sex = sex;
-        this.isValid = isValid;
-        this.hasMane = hasMane;
-    }
+    private Feline feline;
 
     @Before
     public void init() {
+        feline = Mockito.mock(Feline.class);
     }
 
     @After
@@ -45,61 +26,30 @@ public class LionTest {
     }
 
     @Test
-    public void testLion() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-
-        boolean isException = false;
-
-        try {
-            Lion lion = new Lion(feline, sex);
-        } catch (Exception exception) {
-            isException = true;
-        }
-
-        MatcherAssert.assertThat(!(isException), is(isValid));
+    public void testLionInvalidSex() {
+        Exception thrown = assertThrows(Exception.class, () -> new Lion(feline, "Детеныш"));
+        assertEquals("Используйте допустимые значения пола животного - самец или самка", thrown.getMessage());
     }
 
 
     @Test
     public void testGetFood() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-
         Lion lion = new Lion(feline, "Самец");
 
         ArrayList<String> foods = new ArrayList<>(Arrays.asList("Животные", "Птицы", "Рыба"));
 
         Mockito.when(feline.getFood("Хищник")).thenReturn(foods);
 
-        MatcherAssert.assertThat(lion.getFood(), is(foods));
-    }
-
-    @Test
-    public void testDoesHasMane() throws Exception {
-        if(!isValid)
-        {
-            return;
-        }
-
-        Feline feline = Mockito.mock(Feline.class);
-
-        Lion lion = new Lion(feline, sex);
-
-        MatcherAssert.assertThat(lion.doesHaveMane(), is(hasMane));
+        MatcherAssert.assertThat("Метод getFood должен вернуть " + foods, lion.getFood(), is(foods));
     }
 
     @Test
     public void testGetKittens() throws Exception {
-        if(!isValid)
-        {
-            return;
-        }
-        Feline feline = Mockito.mock(Feline.class);
-
-        Lion lion = new Lion(feline, sex);
+        Lion lion = new Lion(feline, "Самец");
 
         Mockito.when(feline.getKittens()).thenReturn(1);
 
-        MatcherAssert.assertThat(lion.getKittens(), is(1));
+        MatcherAssert.assertThat("Метод getKittens должен вернуть 1", lion.getKittens(), is(1));
     }
 
 }

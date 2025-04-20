@@ -9,10 +9,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.fail;
+
 public class LionAlexTest {
+
+    private Feline feline;
 
     @Before
     public void init() {
+        feline = new Feline();
     }
 
     @After
@@ -20,40 +25,36 @@ public class LionAlexTest {
     }
 
     @Test
-    public void testLionAlex() throws Exception {
-        Feline feline = new Feline();
-
-        LionAlex lionAlex = new LionAlex(feline);
+    public void testLionAlex() {
+        try {
+            LionAlex lionAlex = new LionAlex(feline);
+        } catch(Exception e) {
+            fail("Конструктор класса LionAlex выбросил исключение " + e.getClass().getSimpleName());
+        }
     }
 
     @Test
     public void testGetFriends() throws Exception {
-        Feline feline = new Feline();
-
         LionAlex lionAlex = new LionAlex(feline);
 
         ArrayList<String> friends = new ArrayList<>(Arrays.asList("Марти", "Глория", "Мелман"));
 
-        MatcherAssert.assertThat(lionAlex.getFriends(), is(friends));
+        MatcherAssert.assertThat("Метод getFriends должен вернуть " + friends, lionAlex.getFriends(), is(friends));
     }
 
     @Test
     public void testGetPlaceOfLiving() throws Exception {
-        Feline feline = new Feline();
-
         LionAlex lionAlex = new LionAlex(feline);
 
         String placeOfLiving = "Нью-Йоркский зоопарк";
 
-        MatcherAssert.assertThat(lionAlex.getPlaceOfLiving(), is(placeOfLiving));
+        MatcherAssert.assertThat("Метод getPlaceOfLiving должен вернуть " + placeOfLiving, lionAlex.getPlaceOfLiving(), is(placeOfLiving));
     }
 
     @Test
     public void testGetKittens() throws Exception {
-        Feline feline = new Feline();
-
         LionAlex lionAlex = new LionAlex(feline);
 
-        MatcherAssert.assertThat(lionAlex.getKittens(), is(0));
+        MatcherAssert.assertThat("Метод getKittens должен вернуть 0", lionAlex.getKittens(), is(0));
     }
 }
