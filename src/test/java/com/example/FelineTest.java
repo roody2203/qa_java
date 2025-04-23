@@ -1,8 +1,6 @@
 package com.example;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -12,15 +10,6 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.is;
 
 public class FelineTest {
-
-
-    @Before
-    public void init() {
-    }
-
-    @After
-    public void teardown() {
-    }
 
     @Test
     public void testEatMeat() throws Exception {

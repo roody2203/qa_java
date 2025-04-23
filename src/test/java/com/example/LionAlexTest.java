@@ -1,7 +1,6 @@
 package com.example;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
 
 public class LionAlexTest {
 
@@ -20,17 +19,10 @@ public class LionAlexTest {
         feline = new Feline();
     }
 
-    @After
-    public void teardown() {
-    }
-
     @Test
-    public void testLionAlex() {
-        try {
-            LionAlex lionAlex = new LionAlex(feline);
-        } catch(Exception e) {
-            fail("Конструктор класса LionAlex выбросил исключение " + e.getClass().getSimpleName());
-        }
+    public void testLionAlex() throws Exception {
+        LionAlex lionAlex = new LionAlex(feline);
+        assertNotNull("Ошибка при создании объекта LionAlex",lionAlex);
     }
 
     @Test

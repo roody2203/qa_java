@@ -2,7 +2,6 @@
     package com.example;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +9,8 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.fail;
 
-@RunWith(Parameterized.class)
+    @RunWith(Parameterized.class)
 public class LionTestParametrized {
 
     private Feline feline;
@@ -39,32 +37,12 @@ public class LionTestParametrized {
         feline = Mockito.mock(Feline.class);
     }
 
-    @After
-    public void teardown() {
-    }
-
-    @Test
-    public void testLion() {
-        try {
-            Lion lion = new Lion(feline, sex);
-        } catch (Exception e) {
-            fail("Конструктор класса Lion выбросил исключение " + e.getClass().getSimpleName());
-        }
-    }
-
     @Test
     public void testDoesHasMane() throws Exception {
-         Lion lion = new Lion(feline, sex);
+        Lion lion = new Lion(feline, sex);
 
         MatcherAssert.assertThat("Метод doesHasMane должен вернуть " + hasMane, lion.doesHaveMane(), is(hasMane));
     }
-
-    @Test
-    public void testGetKittens() throws Exception {
-        Lion lion = new Lion(feline, sex);
-
-        Mockito.when(feline.getKittens()).thenReturn(1);
-
-        MatcherAssert.assertThat("Метод getKittens должен вернуть 1", lion.getKittens(), is(1));
-    }
 }
+
+

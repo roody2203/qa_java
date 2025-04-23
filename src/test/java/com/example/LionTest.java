@@ -1,7 +1,6 @@
 package com.example;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 public class LionTest {
     private Feline feline;
@@ -21,10 +19,11 @@ public class LionTest {
         feline = Mockito.mock(Feline.class);
     }
 
-    @After
-    public void teardown() {
+    @Test
+    public void testLion() throws Exception {
+        Lion lion = new Lion(feline, "Самец");
+        assertNotNull("Ошибка при создании объекта Lion",lion);
     }
-
     @Test
     public void testLionInvalidSex() {
         Exception thrown = assertThrows(Exception.class, () -> new Lion(feline, "Детеныш"));
@@ -51,5 +50,4 @@ public class LionTest {
 
         MatcherAssert.assertThat("Метод getKittens должен вернуть 1", lion.getKittens(), is(1));
     }
-
 }
